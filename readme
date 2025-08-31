@@ -1,0 +1,53 @@
+🧠 Etapa 1: Planejamento do Projeto
+Antes de codar, definimos:
+• 	Objetivo: Criar um catálogo de filmes com cadastro, listagem e exibição.
+• 	Tecnologias: HTML (estrutura), CSS (estilo), JavaScript (lógica).
+Paradigma: Programação orientada a objetos (POO), com classes Filme e classes catálogo.
+
+🧱 Etapa 2: A Estrutura do HTML - 
+<form id="form-filme">...</form>
+
+
+Função:
+• 	Cria a interface para o usuário cadastrar filmes.
+• 	Define onde os filmes serão exibidos (<ul>).
+Profissionalização:
+• 	Usei placeholder, required e type para melhorar a usabilidade.
+• 	Inseri a separação clara entre formulário e listagem.
+
+🎨 Etapa 3: Estilização com CS
+
+form {
+  display: flex;
+  flex-direction: column;
+  ...
+
+  Função:
+• 	Deixa o app visualmente agradável e responsivo.
+• 	Usa cores suaves, sombras e espaçamento para parecer moderno.
+Profissionalização:
+• 	A escolha do Estilo limpo e consistente.
+• 	Inserção de Botões com hover para dar um feedback visual.
+• 	Layout adaptável para diferentes tamanhos de tela.
+
+
+🧠 Etapa 4: Classes em JavaScript
+Classe  filme
+
+class Filme {
+  constructor(titulo, ano, genero, direcao, sinopse) {
+    ...
+  }
+
+  exibirDados() {
+    return `...`;
+  }
+}
+
+Função:
+- Representa um filme com seus atributos.
+- O Método exibirDados() retorna HTML formatado para exibição.
+Profissionalização:
+- Encapsulamento: cada filme é um objeto com dados e comportamento.
+- Facilita manutenção e expansão (ex: adicionar avaliação depois).
+
