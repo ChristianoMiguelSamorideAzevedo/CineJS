@@ -1,33 +1,81 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catálogo CineJs</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>🎬 Catálogo CineJs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  
 </head>
 <body>
-  <div class="container">
-    <h1>🎬 Catálogo CineJs</h1>
+  <!-- Logo removida conforme solicitado -->
 
+  <div class="container centralizado">
+    <h1>🎬Catálogo CineJs</h1>
     <form id="form-filme">
       <fieldset>
         <legend>Informações do Filme</legend>
-        <input type="text" id="titulo" placeholder="Título" required />
-        <input type="number" id="ano" placeholder="Ano de lançamento" required />
-        <input type="text" id="genero" placeholder="Gênero" required />
-        <input type="text" id="direcao" placeholder="Direção" required />
+        <input type="text" id="titulo" placeholder="Título" required>
+        <input type="number" id="ano" placeholder="Ano de lançamento" required>
+        <input type="text" id="genero" placeholder="Gênero" required>
+        <input type="text" id="direcao" placeholder="Direção" required>
         <textarea id="sinopse" placeholder="Sinopse" required></textarea>
+        <input type="number" id="avaliacao" placeholder="Avaliação (0 a 10)" min="0" max="10" step="0.1" required>
+        <input type="number" id="duracao" placeholder="Duração (em minutos)" min="1" required>
+        <label for="streaming">Disponível em streaming?</label>
+        <input type="checkbox" id="streaming">
+        <input type="text" id="poster" placeholder="Link do poster (opcional)">
         <button type="submit">Cadastrar Filme</button>
       </fieldset>
     </form>
-
+    <div class="crud-buttons">
+      <h3>Operações CRUD</h3>
+      <input type="text" id="titulo-busca" placeholder="Título do filme para buscar/atualizar/excluir">
+      <button onclick="buscarFilme()">Buscar Filme</button>
+      <button onclick="atualizarFilme()">Atualizar Filme</button>
+      <button onclick="excluirFilme()">Excluir Filme</button>
+    </div>
     <div id="mensagem-sucesso"></div>
-
     <h2>🎞️ Filmes Cadastrados</h2>
+    <!-- Carrossel dos filmes cadastrados -->
+    <div id="carrossel-filmes" class="carousel">
+      <button class="carousel-btn prev" onclick="mudarFilme(-1)">&#10094;</button>
+      <div class="carousel-images" id="carousel-imagens-filmes">
+        <!-- Imagens dos filmes cadastrados serão inseridas aqui via JS -->
+      </div>
+      <button class="carousel-btn next" onclick="mudarFilme(1)">&#10095;</button>
+    </div>
     <div id="lista-filmes"></div>
   </div>
 
   <script src="script.js"></script>
+</body>
+<script>
+// Carrossel dos filmes cadastrados
+let idxFilme = 0;
+function renderizarCarrosselFilmes() {
+  const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
+  const carousel = document.getElementById('carousel-imagens-filmes');
+  carousel.innerHTML = '';
+  filmes.forEach((filme, i) => {
+    const img = document.createElement('img');
+    img.src = filme.poster || 'img/logo_cinejs.png';
+    img.alt = filme.titulo;
+    img.className = 'carousel-img' + (i === idxFilme ? ' active' : '');
+    carousel.appendChild(img);
+  });
+}
+function mudarFilme(delta) {
+  const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
+  if (filmes.length === 0) return;
+  idxFilme = (idxFilme + delta + filmes.length) % filmes.length;
+  renderizarCarrosselFilmes();
+}
+// Atualiza carrossel ao carregar e ao cadastrar filme
+window.addEventListener('DOMContentLoaded', renderizarCarrosselFilmes);
+document.getElementById('form-filme').addEventListener('submit', function(e) {
+  setTimeout(renderizarCarrosselFilmes, 100);
+});
+</script>
 </body>
 </html>
