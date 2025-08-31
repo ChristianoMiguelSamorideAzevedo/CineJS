@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
   
+<link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
-  <!-- Logo removida conforme solicitado -->
-
-  <div class="container centralizado">
+    <div class="container centralizado">
     <h1>🎬Catálogo CineJs</h1>
     <form id="form-filme">
       <fieldset>
@@ -22,8 +22,13 @@
         <textarea id="sinopse" placeholder="Sinopse" required></textarea>
         <input type="number" id="avaliacao" placeholder="Avaliação (0 a 10)" min="0" max="10" step="0.1" required>
         <input type="number" id="duracao" placeholder="Duração (em minutos)" min="1" required>
-        <label for="streaming">Disponível em streaming?</label>
-        <input type="checkbox" id="streaming">
+        <div class="streaming-group">
+          <label for="streaming">Disponível em streaming?</label>
+          <span class="streaming-option">Não</span>
+          <input type="checkbox" id="streaming">
+          <span class="streaming-option">Sim</span>
+        </div>
+
         <input type="text" id="poster" placeholder="Link do poster (opcional)">
         <button type="submit">Cadastrar Filme</button>
       </fieldset>
@@ -38,12 +43,12 @@
     <div id="mensagem-sucesso"></div>
     <h2>🎞️ Filmes Cadastrados</h2>
     <!-- Carrossel dos filmes cadastrados -->
-    <div id="carrossel-filmes" class="carousel">
-      <button class="carousel-btn prev" onclick="mudarFilme(-1)">&#10094;</button>
-      <div class="carousel-images" id="carousel-imagens-filmes">
+    <div id="carrossel-filmes" class="carrousel vertical-carrousel">
+      <button class="carrousel-btn prev" onclick="mudarFilme(-1)">&#9650;</button>
+      <div class="carrousel-images" id="carrousel-imagens-filmes">
         <!-- Imagens dos filmes cadastrados serão inseridas aqui via JS -->
       </div>
-      <button class="carousel-btn next" onclick="mudarFilme(1)">&#10095;</button>
+      <button class="carousel-btn next" onclick="mudarFilme(1)">&#9660;</button>
     </div>
     <div id="lista-filmes"></div>
   </div>
@@ -55,13 +60,13 @@
 let idxFilme = 0;
 function renderizarCarrosselFilmes() {
   const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
-  const carousel = document.getElementById('carousel-imagens-filmes');
+  const carousel = document.getElementById('carrousel-imagens-filmes');
   carousel.innerHTML = '';
   filmes.forEach((filme, i) => {
     const img = document.createElement('img');
     img.src = filme.poster || 'img/logo_cinejs.png';
     img.alt = filme.titulo;
-    img.className = 'carousel-img' + (i === idxFilme ? ' active' : '');
+    img.className = 'carrousel-img' + (i === idxFilme ? ' active' : '');
     carousel.appendChild(img);
   });
 }

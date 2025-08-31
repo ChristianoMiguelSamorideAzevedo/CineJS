@@ -21,7 +21,7 @@ class Filme {
         <p><strong>Avaliação:</strong> ${this.avaliacao}</p>
         <p><strong>Duração:</strong> ${this.duracao} minutos</p>
         <p><strong>Streaming:</strong> ${this.streaming ? "Sim" : "Não"}</p>
-        ${this.poster ? `<img src="${this.poster}" alt="Poster de ${this.titulo}" style="max-width:180px; margin-top:10px; border-radius:8px;">` : ""}
+        ${this.poster ? `<img src="\${this.poster}" alt="Poster do filme">` : ""}
       </div>
     `;
   }
@@ -34,9 +34,7 @@ class Catalogo {
 
   adicionarFilme(filme) {
     this.filmes.push(filme);
-    this.salvarLocalStorage();
     this.atualizarLista();
-    atualizarCarrosselFilmes();
   }
 
   buscarFilme(titulo) {
@@ -47,17 +45,13 @@ class Catalogo {
     const index = this.filmes.findIndex(f => f.titulo.toLowerCase() === titulo.toLowerCase());
     if (index !== -1) {
       this.filmes[index] = { ...this.filmes[index], ...novosDados };
-      this.salvarLocalStorage();
       this.atualizarLista();
-      atualizarCarrosselFilmes();
     }
   }
 
   excluirFilme(titulo) {
     this.filmes = this.filmes.filter(f => f.titulo.toLowerCase() !== titulo.toLowerCase());
-    this.salvarLocalStorage();
     this.atualizarLista();
-    atualizarCarrosselFilmes();
   }
 
   atualizarLista() {
@@ -65,28 +59,37 @@ class Catalogo {
     lista.innerHTML = this.filmes.map(f => f.exibirDados()).join("");
   }
 
-  salvarLocalStorage() {
-    localStorage.setItem('filmes', JSON.stringify(this.filmes));
+  filmesComBoaAvaliacao() {
+    return this.filmes.filter(f => f.avaliacao > 6).map(f => f.titulo);
   }
 
-  carregarLocalStorage() {
-    const filmesSalvos = JSON.parse(localStorage.getItem('filmes')) || [];
-    this.filmes = filmesSalvos.map(f => new Filme(f.titulo, f.ano, f.genero, f.direcao, f.sinopse, f.avaliacao, f.duracao, f.streaming, f.poster));
-    this.atualizarLista();
-    atualizarCarrosselFilmes();
+  filmesDisponiveisStreaming() {
+    return this.filmes.filter(f => f.streaming).map(f => f.titulo);
+  }
+
+  filmePorDuracao(tipo) {
+    if (this.filmes.length === 0) return null;
+    return this.filmes.reduce((acc, curr) => {
+      if (tipo === "maior") return curr.duracao > acc.duracao ? curr : acc;
+      if (tipo === "menor") return curr.duracao < acc.duracao ? curr : acc;
+      return acc;
+    });
+  }
+
+  mediaAvaliacoes() {
+    if (this.filmes.length === 0) return 0;
+    const total = this.filmes.reduce((soma, f) => soma + f.avaliacao, 0);
+    return (total / this.filmes.length).toFixed(2);
   }
 }
 
-
 const catalogo = new Catalogo();
-catalogo.carregarLocalStorage();
-
 
 document.getElementById("form-filme").addEventListener("submit", function (e) {
   e.preventDefault();
 
   const titulo = document.getElementById("titulo").value;
-  const ano = document.getElementById("ano").value;
+  const ano = parseInt(document.getElementById("ano").value);
   const genero = document.getElementById("genero").value;
   const direcao = document.getElementById("direcao").value;
   const sinopse = document.getElementById("sinopse").value;
@@ -95,34 +98,36 @@ document.getElementById("form-filme").addEventListener("submit", function (e) {
   const streaming = document.getElementById("streaming").checked;
   const poster = document.getElementById("poster").value;
 
+  if (!titulo || !ano || !genero || !direcao || !sinopse) {
+    alert("Todos os campos obrigatórios devem ser preenchidos.");
+    return;
+  }
+
+  if (isNaN(ano) || ano < 1800 || ano > new Date().getFullYear()) {
+    alert("Ano inválido. Digite um ano entre 1800 e o atual.");
+    return;
+  }
+
+  if (isNaN(avaliacao) || avaliacao < 0 || avaliacao > 10) {
+    alert("A avaliação deve estar entre 0 e 10.");
+    return;
+  }
+
+  if (isNaN(duracao) || duracao <= 0) {
+    alert("A duração deve ser um número positivo.");
+    return;
+  }
+
+  if (catalogo.filmes.some(f => f.titulo.toLowerCase() === titulo.toLowerCase())) {
+    alert("Já existe um filme com esse título cadastrado.");
+    return;
+  }
+
   const novoFilme = new Filme(titulo, ano, genero, direcao, sinopse, avaliacao, duracao, streaming, poster);
   catalogo.adicionarFilme(novoFilme);
   mostrarMensagem("Filme cadastrado com sucesso!");
   this.reset();
 });
-
-// Carrossel dos filmes cadastrados
-let idxFilme = 0;
-function atualizarCarrosselFilmes() {
-  const filmes = catalogo.filmes;
-  const carousel = document.getElementById('carousel-imagens-filmes');
-  if (!carousel) return;
-  carousel.innerHTML = '';
-  filmes.forEach((filme, i) => {
-    const img = document.createElement('img');
-    img.src = filme.poster || 'img/logo_cinejs.png';
-    img.alt = filme.titulo;
-    img.className = 'carousel-img' + (i === idxFilme ? ' active' : '');
-    carousel.appendChild(img);
-  });
-}
-function mudarFilme(delta) {
-  const filmes = catalogo.filmes;
-  if (filmes.length === 0) return;
-  idxFilme = (idxFilme + delta + filmes.length) % filmes.length;
-  atualizarCarrosselFilmes();
-}
-window.addEventListener('DOMContentLoaded', atualizarCarrosselFilmes);
 
 function mostrarMensagem(texto) {
   const msg = document.getElementById("mensagem-sucesso");
@@ -131,31 +136,4 @@ function mostrarMensagem(texto) {
   setTimeout(() => {
     msg.style.display = "none";
   }, 3000);
-}
-
-function buscarFilme() {
-  const tituloBusca = document.getElementById("titulo-busca").value;
-  const filme = catalogo.buscarFilme(tituloBusca);
-  if (filme) {
-    alert("Filme encontrado:\n" + JSON.stringify(filme, null, 2));
-  } else {
-    alert("Filme não encontrado.");
-  }
-}
-
-function atualizarFilme() {
-  const tituloBusca = document.getElementById("titulo-busca").value;
-  const novosDados = {
-    genero: prompt("Novo gênero:"),
-    direcao: prompt("Nova direção:"),
-    sinopse: prompt("Nova sinopse:")
-  };
-  catalogo.atualizarFilme(tituloBusca, novosDados);
-  alert("Filme atualizado (se encontrado).");
-}
-
-function excluirFilme() {
-  const tituloBusca = document.getElementById("titulo-busca").value;
-  catalogo.excluirFilme(tituloBusca);
-  alert("Filme excluído (se encontrado).");
 }

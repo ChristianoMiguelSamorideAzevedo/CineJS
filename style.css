@@ -1,3 +1,34 @@
+.streaming-option {
+  font-size: 15px;
+  color: #34495e;
+  margin: 0 4px;
+}
+
+.streaming-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.streaming-group label {
+  margin: 0;
+  font-size: 16px;
+  color: #34495e;
+}
+.streaming-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(to right, #ce071b, #bc0202);
+  color: #fff;
+  margin: 0;
+  padding: 0;
+}
+
 body {
   background: url('img/CINEJS.jpg') no-repeat center center fixed;
   background-size: cover;
@@ -6,108 +37,45 @@ body {
   font-family: 'Poppins', Arial, sans-serif;
   overflow-x: hidden;
 }
-/* Carrossel de imagens */
-.carousel {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto 30px auto;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-  background: rgba(255,255,255,0.7);
-}
-.carousel-images {
-  display: flex;
-  transition: transform 0.5s cubic-bezier(.4,2,.6,1);
-}
-.carousel-img {
-  min-width: 100%;
-  opacity: 0;
-  transition: opacity 0.5s;
-  pointer-events: none;
-  filter: grayscale(30%) brightness(0.95);
-}
-.carousel-img.active {
-  opacity: 1;
-  pointer-events: auto;
-  filter: none;
-}
-.carousel-img:hover {
-  filter: brightness(1.1) drop-shadow(0 2px 8px #2226);
-  transition: filter 0.3s;
-}
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(52,73,94,0.8);
-  color: #fff;
-  border: none;
-  font-size: 2rem;
-  padding: 0 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.3s;
-}
-.carousel-btn:hover {
-  background: #1abc9c;
-}
-.carousel-btn.prev { left: 10px; }
-.carousel-btn.next { right: 10px; }
-body {
-  background-image: url('https://images.unsplash.com/photo-1598899134739-4c1d3f3f1e8d');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  color: #fff;
+
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
 }
 
-body {
-  font-family: 'Poppins', Arial, sans-serif;
-}
-
-.container.centralizado {
-  max-width: 600px;
-  margin: 40px auto 0 auto;
-  padding: 30px 24px 24px 24px;
-  background: rgba(255,255,255,0.92);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-h1, h2 {
+h1, h2, h3 {
   text-align: center;
-  color: #34495e;
+  color: #ffffff;
+  margin-bottom: 20px;
 }
 
 form {
+  background-color: #ffffff;
+  color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   margin-bottom: 30px;
 }
 
 fieldset {
   border: none;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 0;
 }
 
 input, textarea, button {
   width: 100%;
   margin-bottom: 15px;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 16px;
+  box-sizing: border-box;
 }
 
 button {
-  background-color: #1abc9c;
+  background-color: #d81111;
   color: white;
   font-weight: bold;
   cursor: pointer;
@@ -115,80 +83,44 @@ button {
 }
 
 button:hover {
-  background-color: #16a085;
+  background-color: #720707;
+}
+
+.crud-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  justify-content: center;
+}
+
+.crud-buttons input {
+  flex: 1 1 300px;
+}
+
+.crud-buttons button {
+  flex: 1 1 150px;
 }
 
 .card {
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  color: #333;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   padding: 20px;
   margin-bottom: 20px;
-  transition: transform 0.2s ease;
-}
-
-.card:hover {
-  transform: scale(1.02);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .card img {
   max-width: 100%;
   height: auto;
-  border-radius: 6px;
-  margin-top: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
 }
 
-/* Carrossel dos filmes cadastrados */
-#carrossel-filmes {
-  width: 100%;
-  max-width: 420px;
-  margin: 24px auto 24px auto;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-  position: relative;
-  overflow: hidden;
-  min-height: 220px;
-}
-#carrossel-filmes .carousel-images {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-}
-#carrossel-filmes .carousel-img {
-  max-width: 100%;
-  max-height: 200px;
-  margin: 0 auto;
-  opacity: 0;
-  transition: opacity 0.5s;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  display: none;
-}
-#carrossel-filmes .carousel-img.active {
-  opacity: 1;
-  display: block;
-}
-#carrossel-filmes .carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(52,73,94,0.8);
-  color: #fff;
-  border: none;
-  font-size: 2rem;
-  padding: 0 12px;
-  border-radius: 50%;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.3s;
-}
-#carrossel-filmes .carousel-btn.prev { left: 10px; }
-#carrossel-filmes .carousel-btn.next { right: 10px; }
-#carrossel-filmes .carousel-btn:hover {
-  background: #1abc9c;
-}
 #mensagem-sucesso {
   position: fixed;
   top: 20px;
@@ -199,6 +131,7 @@ button:hover {
   border-radius: 5px;
   display: none;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
 }
 
 @media (max-width: 600px) {
@@ -206,16 +139,17 @@ button:hover {
     padding: 10px;
   }
 
-  fieldset {
+  form, .card {
     padding: 15px;
   }
 
-  .card {
-    padding: 15px;
+  .crud-buttons {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .card img {
-    max-width: 100%;
-    height: auto;
+  .crud-buttons input, .crud-buttons button {
+    width: 100%;
   }
 }
+
