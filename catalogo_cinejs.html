@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CineJs</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-image: url('background.jpg');
+      background-size: cover;
+      background-position: center;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+    h1 {
+      margin-top: 20px;
+      font-size: 3em;
+      color: white;
+    }
+    h2 {
+      color: white;
+    }
+    form {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 10px;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    .streaming-options {
+      margin: 10px 0;
+      text-align: left;
+    }
+    .streaming-options label {
+      margin-right: 10px;
+    }
+    .btn {
+      background-color: #e50914;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    .btn:hover {
+      background-color: #b20710;
+    }
+    #lista-filmes {
+      margin: 20px auto;
+      width: 90%;
+      max-width: 800px;
+    }
+    .filme-card {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 10px;
+      text-align: left;
+    }
+    .filme-card img {
+      width: 200px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Catálogo CineJs</h1>
+  <h2>Filmes Cadastrados</h2>
+
+  <form id="form-filme">
+    <input type="text" id="titulo" placeholder="Título do Filme" required />
+    <input type="text" id="ano" placeholder="Ano de Lançamento" required />
+    <input type="text" id="genero" placeholder="Gênero" required />
+    <input type="text" id="direcao" placeholder="Direção" required />
+    <input type="text" id="sinopse" placeholder="Sinopse" required />
+    <input type="number" id="avaliacao" placeholder="Avaliação (0 a 10)" required />
+    <input type="number" id="duracao" placeholder="Duração (minutos)" required />
+    <input type="text" id="poster" placeholder="URL da Imagem de Capa" required />
+    <div class="streaming-options">
+      <p>Está disponível em serviços de Streaming?</p>
+      <label><input type="radio" name="streaming" value="sim" required /> Sim</label>
+      <label><input type="radio" name="streaming" value="nao" /> Não</label>
+    </div>
+    <button type="submit" class="btn">Cadastrar Filme</button>
+  </form>
+
+  <div id="lista-filmes"></div>
+
+  <script>
+    const form = document.getElementById("form-filme");
+    const listaFilmes = document.getElementById("lista-filmes");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const titulo = document.getElementById("titulo").value;
+      const ano = document.getElementById("ano").value;
+      const genero = document.getElementById("genero").value;
+      const direcao = document.getElementById("direcao").value;
+      const sinopse = document.getElementById("sinopse").value;
+      const avaliacao = parseFloat(document.getElementById("avaliacao").value);
+      const duracao = parseInt(document.getElementById("duracao").value);
+      const streaming = document.querySelector('input[name="streaming"]:checked')?.value === "sim";
+      const poster = document.getElementById("poster").value;
+
+      const novoFilme = {
+        titulo,
+        ano,
+        genero,
+        direcao,
+        sinopse,
+        avaliacao,
+        duracao,
+        streaming,
+        poster
+      };
+
+      const filmes = JSON.parse(localStorage.getItem("filmes")) || [];
+      filmes.push(novoFilme);
+      localStorage.setItem("filmes", JSON.stringify(filmes));
+
+      form.reset();
+      exibirFilmes();
+    });
+
+    function exibirFilmes() {
+      listaFilmes.innerHTML = "";
+      const filmes = JSON.parse(localStorage.getItem("filmes")) || [];
+
+      filmes.forEach(filme => {
+        const card = document.createElement("div");
+        card.className = "filme-card";
+        card.innerHTML = `
+          <h3>${filme.titulo} (${filme.ano})</h3>
+          <img src="${filme.poster}" alt="${filme.titulo}" />
+          <p><strong>Gênero:</strong> ${filme.genero}</p>
+          <p><strong>Direção:</strong> ${filme.direcao}</p>
+          <p><strong>Sinopse:</strong> ${filme.sinopse}</p>
+          <p><strong>Avaliação:</strong> ${filme.avaliacao}</p>
+          <p><strong>Duração:</strong> ${filme.duracao} min</p>
+          <p><strong>Disponível no streaming:</strong> ${filme.streaming ? "Sim" : "Não"}</p>
+        `;
+        listaFilmes.appendChild(card);
+      });
+    }
+
+    exibirFilmes();
+  </script>
+</body>
+</html>

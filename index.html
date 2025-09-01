@@ -11,10 +11,11 @@
 </head>
 <body>
     <div class="container centralizado">
-    <h1>🎬Catálogo CineJs</h1>
+    <h1>Catálogo CineJs</h1>
     <form id="form-filme">
       <fieldset>
         <legend>Informações do Filme</legend>
+        <input type="text" id="imagem" placeholder="Link da imagem" required>
         <input type="text" id="titulo" placeholder="Título" required>
         <input type="number" id="ano" placeholder="Ano de lançamento" required>
         <input type="text" id="genero" placeholder="Gênero" required>
@@ -23,6 +24,7 @@
         <input type="number" id="avaliacao" placeholder="Avaliação (0 a 10)" min="0" max="10" step="0.1" required>
         <input type="number" id="duracao" placeholder="Duração (em minutos)" min="1" required>
         <div class="streaming-options">
+   
   <label>
     <input type="radio" name="streaming" value="sim" id="streaming-sim"> Sim
   </label>
@@ -30,8 +32,6 @@
     <input type="radio" name="streaming" value="nao" id="streaming-nao"> Não
   </label>
 </div>
-
-
         <input type="text" id="poster" placeholder="Link do poster (opcional)">
         <button type="submit">Cadastrar Filme</button>
       </fieldset>
@@ -44,12 +44,12 @@
       <button onclick="excluirFilme()">Excluir Filme</button>
     </div>
     <div id="mensagem-sucesso"></div>
-    <h2>🎞️ Filmes Cadastrados</h2>
-    <!-- Carrossel dos filmes cadastrados -->
+    <h2>Filmes Cadastrados</h2>
+   
     <div id="carrossel-filmes" class="carousel vertical-carousel">
       <button class="carousel-btn prev" onclick="mudarFilme(-1)">&#9650;</button>
       <div class="carousel-images" id="carousel-imagens-filmes">
-        <!-- Imagens dos filmes cadastrados serão inseridas aqui via JS -->
+        
       </div>
       <button class="carousel-btn next" onclick="mudarFilme(1)">&#9660;</button>
     </div>
@@ -59,7 +59,7 @@
   <script src="script.js"></script>
 </body>
 <script>
-// Carrossel dos filmes cadastrados
+
 let idxFilme = 0;
 function renderizarCarrosselFilmes() {
   const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
@@ -79,7 +79,7 @@ function mudarFilme(delta) {
   idxFilme = (idxFilme + delta + filmes.length) % filmes.length;
   renderizarCarrosselFilmes();
 }
-// Atualiza carrossel ao carregar e ao cadastrar filme
+
 window.addEventListener('DOMContentLoaded', renderizarCarrosselFilmes);
 document.getElementById('form-filme').addEventListener('submit', function(e) {
   setTimeout(renderizarCarrosselFilmes, 100);
