@@ -22,12 +22,15 @@
         <textarea id="sinopse" placeholder="Sinopse" required></textarea>
         <input type="number" id="avaliacao" placeholder="Avaliação (0 a 10)" min="0" max="10" step="0.1" required>
         <input type="number" id="duracao" placeholder="Duração (em minutos)" min="1" required>
-        <div class="streaming-group">
-          <label for="streaming">Disponível em streaming?</label>
-          <span class="streaming-option">Não</span>
-          <input type="checkbox" id="streaming">
-          <span class="streaming-option">Sim</span>
-        </div>
+        <div class="streaming-options">
+  <label>
+    <input type="radio" name="streaming" value="sim" id="streaming-sim"> Sim
+  </label>
+  <label>
+    <input type="radio" name="streaming" value="nao" id="streaming-nao"> Não
+  </label>
+</div>
+
 
         <input type="text" id="poster" placeholder="Link do poster (opcional)">
         <button type="submit">Cadastrar Filme</button>
@@ -43,9 +46,9 @@
     <div id="mensagem-sucesso"></div>
     <h2>🎞️ Filmes Cadastrados</h2>
     <!-- Carrossel dos filmes cadastrados -->
-    <div id="carrossel-filmes" class="carrousel vertical-carrousel">
-      <button class="carrousel-btn prev" onclick="mudarFilme(-1)">&#9650;</button>
-      <div class="carrousel-images" id="carrousel-imagens-filmes">
+    <div id="carrossel-filmes" class="carousel vertical-carousel">
+      <button class="carousel-btn prev" onclick="mudarFilme(-1)">&#9650;</button>
+      <div class="carousel-images" id="carousel-imagens-filmes">
         <!-- Imagens dos filmes cadastrados serão inseridas aqui via JS -->
       </div>
       <button class="carousel-btn next" onclick="mudarFilme(1)">&#9660;</button>
@@ -60,13 +63,13 @@
 let idxFilme = 0;
 function renderizarCarrosselFilmes() {
   const filmes = JSON.parse(localStorage.getItem('filmes')) || [];
-  const carousel = document.getElementById('carrousel-imagens-filmes');
+  const carousel = document.getElementById('carousel-imagens-filmes');
   carousel.innerHTML = '';
   filmes.forEach((filme, i) => {
     const img = document.createElement('img');
     img.src = filme.poster || 'img/logo_cinejs.png';
     img.alt = filme.titulo;
-    img.className = 'carrousel-img' + (i === idxFilme ? ' active' : '');
+    img.className = 'carousel-img' + (i === idxFilme ? ' active' : '');
     carousel.appendChild(img);
   });
 }
