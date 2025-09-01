@@ -1,34 +1,44 @@
-# Projeto CineJs
+# CineJs 🎬
 
-Este projeto é um sistema de catálogo de filmes desenvolvido com HTML, CSS e JavaScript, utilizando Programação Orientada a Objetos e funções de alta ordem.
+CineJs é o Projeto Final do Curso de Lógica e Programação Orientada a Objetos com JavaScript da Escola ADA.
 
-## Funcionalidades
+Este projeto é um sistema de catálogo de filmes que permite ao usuário cadastrar, visualizar e gerenciar filmes com uma interface moderna inspirada na Netflix.
 
-- Cadastro de filmes com validações
-- Busca, atualização e exclusão de filmes
-- Armazenamento dos dados com localStorage
-- Interface moderna com botões vermelhos estilo Netflix
-- Cards com imagem do pôster e dados do filme
-- Funções de alta ordem:
-  - Filmes com avaliação > 6
-  - Filmes disponíveis em streaming
-  - Filme com maior/menor duração
-  - Média das avaliações
+## 🚀 Funcionalidades
 
-## Tecnologias
+- Cadastro de filmes com os seguintes campos:
+  - Título
+  - Ano de lançamento
+  - Gênero
+  - Direção
+  - Sinopse
+  - Avaliação
+  - Duração
+  - Disponibilidade em serviços de streaming (Sim/Não)
+  - URL da imagem de capa (pôster)
+
+- Armazenamento dos dados no `localStorage`
+- Exibição dos filmes em cards com imagem de capa e informações completas
+- Interface com botões vermelhos estilo Netflix e hover em vermelho escuro
+- Layout com fundo personalizado e textos centralizados em branco
+
+## 🛠 Tecnologias Utilizadas
 
 - HTML5
 - CSS3
-- JavaScript (ES6+)
-- Programação Orientada a Objetos
+- JavaScript (ES6)
+- localStorage
 
-## Como usar
+## 🌐 Deploy
 
-1. Abra o arquivo `index.html` em um navegador.
-2. Cadastre filmes preenchendo o formulário.
-3. Utilize os botões para buscar, atualizar ou excluir filmes.
-4. Os dados são salvos automaticamente no navegador (localStorage).
+O projeto está disponível online via Netlify:
 
-## Créditos
+🔗 [Acesse CineJs no Netlify](https://cinejsprojetofinal.netlify.app)
 
-Desenvolvido por Christiano como projeto final do Módulo 1.
+## 📷 Imagem de fundo
+
+A imagem de fundo utilizada no projeto está incluída no diretório como `background.jpg`.
+
+---
+
+Desenvolvido com ✍️ por Miguel Samori
